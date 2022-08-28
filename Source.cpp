@@ -117,8 +117,7 @@ public:
 	void Play()
 	{
 		int f = 0;
-		int kol = 0;
-		do {
+		do{
 			input();
 			cout << "Cлово: ";
 			for (int i = 0; i < rand_word.length(); i++)
@@ -128,7 +127,6 @@ public:
 					cout << "Буква номер " << i + 1 << " правильная.\n";
 					cout << "Играем дальше!\n";
 					count_letter++;
-					kol++;
 					f = 1;
 				}
 			}
@@ -152,10 +150,12 @@ public:
 				err++;
 				cout << "Количество допустимых ошибок: " << --death << "\n";
 			}
+			if (err >= 6)break;
+			if (death < 0)break;
 			if (count_letter == rand_word.size())break;
-		} while (err != 6 || count_letter != rand_word.length());
-		if (count_letter == rand_word.length()) { cout << "Моё уважение! Ты победил!\n"; }
-		else { cout << "Ты проиграл в этой игре, но не в этой жизни ;)"; }
+		} while (err <= 6 || death > 0 || count_letter <= rand_word.length());
+		if (count_letter == rand_word.length()) { cout << "\n\nМоё уважение! Ты победил!\n\n"; }
+		else { cout << "\n\nТы проиграл в этой игре, но не в этой жизни ;)\n\n"; }
 	}
 };
 int main()
