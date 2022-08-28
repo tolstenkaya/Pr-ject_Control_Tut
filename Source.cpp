@@ -23,7 +23,7 @@ public:
 	}
 	char input()
 	{
-		cout << "¬ведите букву: ";
+		cout << "¬ведите букву (на русском €зыке верхнего регистра): ";
 		cin >> letter;
 		ch=saveWord();
 		attempt++;
@@ -122,7 +122,7 @@ public:
 			cout << "Cлово: ";
 			for (int i = 0; i < rand_word.length(); i++)
 			{
-				if (rand_word[i] == letter)
+				if (rand_word[i]==letter)
 				{
 					cout << "Ѕуква номер " << i + 1 << " правильна€.\n";
 					cout << "»граем дальше!\n";
