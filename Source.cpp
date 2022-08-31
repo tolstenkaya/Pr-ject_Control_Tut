@@ -160,10 +160,12 @@ public:
 						if (letter != ch[j])
 						{
 							key = 1;
+							break;
 						}
 						if (letter == ch[j])
 						{
 							key = 0;
+							break;
 						}
 					}
 				}
