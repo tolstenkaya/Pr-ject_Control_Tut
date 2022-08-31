@@ -127,7 +127,6 @@ public:
 				{
 					pos = j;
 					f = 1;
-					/*cout << rand_word[j] << " ";*/
 				}
 			}
 			if (pos==j && f==1)
@@ -186,11 +185,11 @@ public:
 			if (err == 6)break;
 			if (death == -1)break;
 			Print();
-		}/* while (err < 6 && death > 0 && count_letter < rand_word.length());*/
+		}
 	}
 	void Result()
 	{
-		/*system("cls");*/
+		system("cls");
 		if (count_letter == rand_word.length()) { cout << "\n\nМоё уважение! Ты победил!\nИскомое слово:" <<rand_word<<"\n\n"; }
 		else { cout << "\n\nТы проиграл в этой игре, но не в этой жизни ;)\n\n"; }
 	}
