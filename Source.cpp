@@ -12,13 +12,13 @@ class Player
 public:
 	char letter;
 	int attempt = 0;
-	char* ch;
-	int n = 0;
+	char* ch=nullptr;
+	int num = 0;
 	char* saveWord()
 	{
-		ch = (char*)realloc(ch, (n + 1) * sizeof(char));
-		ch[n] = letter;
-		n++;
+		ch = (char*)realloc(ch, (num + 1) * sizeof(char));
+		ch[num] = letter;
+		num++;
 		return ch;
 	}
 	char input()
@@ -29,9 +29,9 @@ public:
 		attempt++;
 		return letter;
 	}
-	void displayLetter()
+	void displayAllLetter()
 	{
-		for (int i = 0; i < n; i++)
+		for (int i = 0; i < num; i++)
 		{
 			cout << ch[i] << " ";
 		}
@@ -114,47 +114,82 @@ public:
 		}
 		cout << "\nОсталось попыток: " << death << endl;
 	}
+	void Print()
+	{
+		cout << "Cлово: ";
+		int pos = 0;
+		int f = 0;
+		for (int j = 0; j < rand_word.length(); j++)
+		{
+			for (int k = 0; k < n; k++)
+			{
+				if (ch[k] == rand_word[j])
+				{
+					pos = j;
+					f = 1;
+					/*cout << rand_word[j] << " ";*/
+				}
+			}
+			if (pos==j && f==1)
+			{
+				cout << rand_word[j] << " ";
+			}
+			else
+			{
+				cout << "__" << " ";
+			}
+		}
+		cout << "\n";
+	}
 	void Play()
 	{
-		int f = 0;
-		do{
+		int f;
+		int key = -1;
+		while(err<=6 || death>=0 || count_letter<=rand_word.length())
+		{
+			f = 0;
 			input();
-			cout << "Cлово: ";
 			for (int i = 0; i < rand_word.length(); i++)
 			{
 				if (rand_word[i]==letter)
 				{
-					cout << "Буква номер " << i + 1 << " правильная.\n";
-					cout << "Играем дальше!\n";
 					count_letter++;
 					f = 1;
-				}
-			}
-			cout << "\n";
-			cout << "Cлово: ";
-			for (int j = 0; j < rand_word.length(); j++)
-			{
-				for (int k = 0; k < n; k++)
-				{
-					if (ch[k] == rand_word[j])
+					for (int j = 0; j < num; j++)
 					{
-						cout << rand_word[j] << " ";
-						f = 1;
+						if (letter != ch[j])
+						{
+							key = 1;
+						}
+						if (letter == ch[j])
+						{
+							key = 0;
+						}
 					}
 				}
-				cout <<" ";
 			}
-			cout << "\n";
-			if (f==0) {
+			if (key == 1) {
+				cout << "Ураа, ты угадал! Играем дальше)\n"; key = -1;
+			}
+			if (key == 0) {
+				cout << "Такая буква уже использовалась:) Внимательнее, друг!\n"; key = -1;
+			}
+			if (f == 0) {
 				cout << "\nБуквы " << letter << " в искомом слове нет!\n";
-				err++;
+				++err;
 				cout << "Количество допустимых ошибок: " << --death << "\n";
 			}
-			if (err >= 6)break;
-			if (death < 0)break;
-			if (count_letter == rand_word.size())break;
-		} while (err <= 6 || death > 0 || count_letter <= rand_word.length());
-		if (count_letter == rand_word.length()) { cout << "\n\nМоё уважение! Ты победил!\n\n"; }
+			cout << "Count letter: " << count_letter << endl;
+			if (count_letter  == rand_word.length())break;
+			if (err == 6)break;
+			if (death == -1)break;
+			Print();
+		}/* while (err < 6 && death > 0 && count_letter < rand_word.length());*/
+	}
+	void Result()
+	{
+		/*system("cls");*/
+		if (count_letter == rand_word.length()) { cout << "\n\nМоё уважение! Ты победил!\nИскомое слово:" <<rand_word<<"\n\n"; }
 		else { cout << "\n\nТы проиграл в этой игре, но не в этой жизни ;)\n\n"; }
 	}
 };
@@ -170,6 +205,7 @@ int main()
 	g.Decoding();
 	g.Begin();
 	g.Play();
+	g.Result();
 	auto end = high_resolution_clock::now();
 	auto duration = duration_cast<seconds>(end - start);
 	cout << "\nКоличество потраченного времени: " << duration.count()<<" секунд\n";
@@ -177,6 +213,6 @@ int main()
 	cout << "Количество ошибок: " << g.err << "\n";
 	cout << "Искомое слово: " << g.rand_word << "\n";
 	cout << "Буквы игрока: ";
-	g.displayLetter();
+	g.displayAllLetter();
 	cout << "\n";
 }
